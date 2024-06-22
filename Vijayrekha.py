@@ -51,15 +51,17 @@ def data_outliners(final_data_frame, excel_path):
                       'C14OH':(0,0.2), 'C16:1':(0.01,1.4), 'C16:1OH':(0.01,0.1), 'C16OH':(0.01,0.1), 'C18:2':(0.1,0.73),
                       'C18:1':(0.5,7), 'C18:2OH':(0.01,0.03), 'C18:1OH':(0.01,0.1), 'C18OH':(0.01,0.1)}
 
-        col_range_dict = {'Ala':(103,742), 'Arg':(1,41), 'Asp':(10,345), 'Cit':(5,43), 'Glu':(152,708), 'Gly':(0,1142),
+        col_1_range_dict = {'Ala':(103,742), 'Arg':(1,41), 'Asp':(10,345), 'Cit':(5,43), 'Glu':(152,708), 'Gly':(0,1142),
                       'Leu':(27,324), 'Met':(5,41), 'Orn':(10,263), 'Phe':(10,102), 'Pro':(87,441), 'Tyr':(15,259),
                       'Val':(52,322), 'C0':(5,125), 'C2':(1.4,80), 'C3':(0.18,0.63), 'C4':(0.08,1.7), 'C5':(0.01,1),
                       'C5DC':(0.01,2.99), 'C6':(0.01,0.95), 'C8':(0.01,0.6), 'C10':(0.02,0.65), 'C12':(0.02,0.6),
-                      'C14':(0.01,1.22), 'C16':(0.34,10.35), 'C18':(0.21,2.03), 'C5:1':(0.01,0.9), 'C4OH':(0.01,1.29),
-                      'C5OH':(0.01,0.9), 'C8:1':(0.01,0.7), 'C3DC':(0.1,0.45), 'C10:2':(0.01,0.22), 'C10:1':(0.01,0.45),
-                      'C4DC':(0.1,1.25), 'C12:1':(0.01,0.5), 'C6DC':(0.01,0.23), 'C14:2':(0,0.2), 'C14:1':(0.01,0.8),
-                      'C14OH':(0,0.2), 'C16:1':(0.01,1.4), 'C16:1OH':(0.01,0.1), 'C16OH':(0.01,0.1), 'C18:2':(0.1,0.73),
-                      'C18:1':(0.5,7), 'C18:2OH':(0.01,0.03), 'C18:1OH':(0.01,0.1), 'C18OH':(0.01,0.1)}
+                      'C14':(0.01,1.22), 'C16':(0.34,10.35), 'C18':(0.21,2.03)}
+
+        col_2_range_dict = {'Ala':(103,742), 'Arg':(1,41), 'Asp':(10,345), 'Cit':(5,43), 'Glu':(152,708), 'Gly':(0,1142),
+                      'Leu':(27,324), 'Met':(5,41), 'Orn':(10,263), 'Phe':(10,102), 'Pro':(87,441), 'Tyr':(15,259),
+                      'Val':(52,322), 'C0':(5,125), 'C2':(1.4,80), 'C3':(0.18,0.63), 'C4':(0.08,1.7), 'C5':(0.01,1),
+                      'C5DC':(0.01,2.99), 'C6':(0.01,0.95), 'C8':(0.01,0.6), 'C10':(0.02,0.65), 'C12':(0.02,0.6),
+                      'C14':(0.01,1.22), 'C16':(0.34,10.35), 'C18':(0.21,2.03)}
 
         bold = Font(bold=True)
 
@@ -77,31 +79,31 @@ def data_outliners(final_data_frame, excel_path):
 
                 for cell in ws[col_letter][1:]:
                     if isinstance(cell.value, (int,float)):
-                        if i < 4:
-                            min_value, max_value = col_range_dict[col]
-                            cell_highlight(min_value, max_value, cell, bold, yellow_fill, green_fill)
-                            i+=1
+                        if i < 2:
+                            if col in col_1_range_dict:
+                                min_value, max_value = col_1_range_dict[col]
+                                cell_highlight(min_value, max_value, cell, bold, yellow_fill, green_fill)
+                                i += 1
+                            else:
+                                i += 1
+                                continue
+                        elif i < 4:
+                            if col in col_2_range_dict:
+                                min_value, max_value = col_2_range_dict[col]
+                                cell_highlight(min_value, max_value, cell, bold, yellow_fill, green_fill)
+                                i += 1
+                            else:
+                                i += 1
+                                continue
                         else:
+                            assert col in range_dict, "Column not in the range Dictionary!!; Problem"
                             min_value, max_value = range_dict[col]
                             cell_highlight(min_value, max_value, cell, bold, yellow_fill, green_fill)
-                    else:
-                        if isinstance(cell.value, str):
-                            print("The value is a string.")
-                        elif isinstance(cell.value, float):
-                            print("The value is a float.")
-                        elif isinstance(cell.value, int):
-                            print("The value is a int.")
-                        else:
-                            print("The value is neither a string nor a float.")
-                        print("Cell Values isn't float; Change it immediatelly")
-                        sys.exit(1)
-
     except Exception as e:
         print(f"Probelm with the highlighting. \n{e}")
         sys.exit(1)
 
     print("Trying to save to the Excel")
-
     try:
         wb.save(excel_path)
         print("Successfully saves to the excel")
