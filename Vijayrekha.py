@@ -341,7 +341,7 @@ def data_extraction(filePath):
 # Function to take the file path from the user
 def get_path():
 
-    print("Starting the process for extraction, Manipulation and Writing to a file")
+    print("Requesting the File Paths for the Data Sets...")
     try:
         AA_data = input("Enter the file path for AA Data\n")
         if "_AA.txt" not in AA_data:
@@ -358,7 +358,7 @@ def get_path():
     except Exception as e:
         print(f"Problem taking in the File Path\n{e}")
         sys.exit(1)
-    print("File Paths Loaded")
+    print("Thank you for your inputs; File Paths Loaded Successfully")
     return [AA_data,AC_data,ACEXT_data]
 
 
@@ -403,7 +403,7 @@ if __name__ == '__main__':
     AC_EXT_data_frame = None
     actual_no_of_patients = int(input("Enter the Number of Patients (Excluding the controls): ")) + 4
     paths = get_path()
-    print("Starting the process of Data Extraction...")
+    print("Data Extraction...")
 
     # TODO: CHeck for dates in the files; from the path.
 
