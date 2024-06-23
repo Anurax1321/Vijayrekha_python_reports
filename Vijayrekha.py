@@ -111,32 +111,41 @@ def data_outliners(final_data_frame, excel_path):
         sys.exit(1)
 
 
+## Function to find the increment number in the file path
+def increment_match(match):
+    return f"({int(match.group(1)) + 1})"
+
 
 ## Fucntion to write to a file
 def write_to_excel(final_df, excel_path):
     try:
-        i = 0
-        while i >= 0:
+        i = 1
+        while True:
             if not os.path.isfile(excel_path):
                 final_df.to_excel(excel_path, index = False)
                 break
-            else:
-                print("File Already exist with the same name; So fetching a different file path with the same date")
-                print("\nTry not doing this again!!\n")
-                i += 1
-                date = excel_path.split(".x")
-                excel_path = date[0] + f"({i}).x" + date[1]
-                print(f"New Excel File Path is: {excel_path}")
-                if not os.path.isfile(excel_path):
-                    final_df.to_excel(excel_path, index=False)
-                    break
-                else:
-                    continue
 
-        print("Writing to a file; ", end="",flush=True)
+            print("File Already exist with the same name; So fetching a different file path with the same date")
+            print("\nTry not doing this again!!\n")
+            if i == 1:
+                date = excel_path.split(".x")
+                excel_path = date[0] + "(1).x" + date[1]
+                i += 1
+                continue
+            else:
+                pattern = r"\((\d+)\)"
+                assert re.match(pattern,excel_path), "Pattern not found in the file path!!!"
+                excel_path = re.sub(pattern, increment_match, excel_path)
+                continue
+        print(f"Excel File Path is: {excel_path}")
+        print("Writing to the Excel File; ", end="",flush=True)
         return excel_path
+    except AssertionError as e:
+        print(f"Problem in the Excel File Path\n{e}")
+        sys.exit(1)
     except Exception as e:
-        print(f"Writing to a file unsuccessfull\n{e}")
+        print(f"Writing to the Excel File Unsuccessfull\n{e}")
+        sys.exit(1)
 
 ## Function to extract the data and create the data-frame into which we can perform some manupilations
 ## as we require and also reshape the list to a 2D Array for the dataframe
