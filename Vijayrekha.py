@@ -36,7 +36,7 @@ def cell_highlight(min, max, cell, b, y, g):
 
 # Function to Highlight the cells of the excel based on the range
 def data_outliners(final_data_frame, excel_path):
-    print("Highlighting the cells out of range of each columns")
+    print("Checking for outliners; ", end="")
     try:
         wb = load_workbook(excel_path)
         ws = wb.active
@@ -102,8 +102,7 @@ def data_outliners(final_data_frame, excel_path):
     except Exception as e:
         print(f"Probelm with the highlighting. \n{e}")
         sys.exit(1)
-
-    print("Trying to save to the Excel")
+    print("Highlighting Completed.")
     try:
         wb.save(excel_path)
         print("Successfully saves to the excel")
@@ -134,7 +133,7 @@ def write_to_excel(final_df, excel_path):
                 else:
                     continue
 
-        print("Writing to a file successfull")
+        print("Writing to a file; ", end="",flush=True)
         return excel_path
     except Exception as e:
         print(f"Writing to a file unsuccessfull\n{e}")
