@@ -433,6 +433,7 @@ if __name__ == '__main__':
 
     print("Data Extraction Complete for all files\nCreating a Final Data Frame for Concatenation of all the data.")
     final_data_frame = get_final_data(AA_data_frame, AC_data_frame, AC_EXT_data_frame, paths[0])
-    data_outliners(final_data_frame, write_to_excel(final_data_frame,get_date(paths[0]) + "_finalReport.xlsx"))
+    data_outliners(final_data_frame, write_to_excel(final_data_frame,'VASU\Final Result'+ '\\' + get_date(paths[0]) + "_finalReport.xlsx"))
+    print("CONGRATULATIONS!!!\nReport ready to be viewed in Excel Formate\nThank you for using the services.")
 
 
