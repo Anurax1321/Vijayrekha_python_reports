@@ -134,7 +134,7 @@ def write_to_excel(final_df, excel_path):
                 continue
             else:
                 pattern = r"\((\d+)\)"
-                assert re.match(pattern,excel_path), "Pattern not found in the file path!!!"
+                assert re.search(pattern,excel_path), "Pattern not found in the file path!!!"
                 excel_path = re.sub(pattern, increment_match, excel_path)
                 continue
         print(f"Excel File Path is: {excel_path}")
@@ -144,7 +144,7 @@ def write_to_excel(final_df, excel_path):
         print(f"Problem in the Excel File Path\n{e}")
         sys.exit(1)
     except Exception as e:
-        print(f"Writing to the Excel File Unsuccessfull\n{e}")
+        print(f"Writing to the Excel File Unsuccessful\n{e}")
         sys.exit(1)
 
 ## Function to extract the data and create the data-frame into which we can perform some manupilations
