@@ -337,6 +337,22 @@ def data_extraction(filePath):
         sys.exit(1)
 
 
+## Function to check the inputs for their dates and formates
+def check_input(filePath, date):
+    filePath = filePath.split("\\")[-1]
+    print(filePath)
+    if filePath.endswith("_AA.txt"):
+        assert filePath.startswith(date), "Wrong AA DATE!!; Check the File Paths for Data Sets and Try again!!"
+    elif filePath.endswith("_AC.txt"):
+        assert filePath.startswith(date), "Wrong AC DATE!!; Check the File Paths for Data Sets and Try again!!"
+    elif filePath.endswith("_AC_EXT.txt"):
+        assert filePath.startswith(date), "Wrong AC_EXT DATE!!; Check the File Paths for Data Sets and Try again!!"
+    else:
+        # Wrong Data Set Type or Formate
+        return False
+    return True
+
+
 # TODO: Add verification using the dates form the file path in that formate before releasing it
 # Function to take the file path from the user
 def get_path():
@@ -344,17 +360,12 @@ def get_path():
     print("Requesting the File Paths for the Data Sets...")
     try:
         AA_data = input("Enter the file path for AA Data\n")
-        if "_AA.txt" not in AA_data:
-            print("Wrong Path Entered for AA; Stopping the program; Try Again")
-            sys.exit(1)
+        date = get_date(AA_data)
+        assert check_input(AA_data, date), "Wrong Data File Path Entered; Try again with the correct one!!!"
         AC_data = input("Enter the file path for AC Data\n")
-        if "_AC.txt" not in AC_data:
-            print("Wrong Path Entered for AC; Stopping the program; Try Again")
-            sys.exit(1)
+        assert check_input(AC_data, date), "Wrong Data File Path Entered; Try again with the correct one!!!"
         ACEXT_data = input("Enter the file path for ACEXT Data\n")
-        if "_AC_EXT.txt" not in ACEXT_data:
-            print("Wrong Path Entered for AC_EXT; Stopping the program; Try Again")
-            sys.exit(1)
+        assert check_input(ACEXT_data, date), "Wrong Data File Path Entered; Try again with the correct one!!!"
     except Exception as e:
         print(f"Problem taking in the File Path\n{e}")
         sys.exit(1)
