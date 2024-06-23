@@ -340,7 +340,6 @@ def data_extraction(filePath):
 ## Function to check the inputs for their dates and formates
 def check_input(filePath, date):
     filePath = filePath.split("\\")[-1]
-    print(filePath)
     if filePath.endswith("_AA.txt"):
         assert filePath.startswith(date), "Wrong AA DATE!!; Check the File Paths for Data Sets and Try again!!"
     elif filePath.endswith("_AC.txt"):
@@ -356,18 +355,20 @@ def check_input(filePath, date):
 # TODO: Add verification using the dates form the file path in that formate before releasing it
 # Function to take the file path from the user
 def get_path():
-
     print("Requesting the File Paths for the Data Sets...")
     try:
         AA_data = input("Enter the file path for AA Data\n")
         date = get_date(AA_data)
-        assert check_input(AA_data, date), "Wrong Data File Path Entered; Try again with the correct one!!!"
+        assert check_input(AA_data, date)
         AC_data = input("Enter the file path for AC Data\n")
-        assert check_input(AC_data, date), "Wrong Data File Path Entered; Try again with the correct one!!!"
+        assert check_input(AC_data, date)
         ACEXT_data = input("Enter the file path for ACEXT Data\n")
-        assert check_input(ACEXT_data, date), "Wrong Data File Path Entered; Try again with the correct one!!!"
+        assert check_input(ACEXT_data, date)
+    except AssertionError as e:
+        print(f"Wrong Data File Path Entered; Try again with the correct one!!!\n{e}")
+        sys.exit(1)
     except Exception as e:
-        print(f"Problem taking in the File Path\n{e}")
+        print(f"Problem in file path input; Check it out!!!\n{e}")
         sys.exit(1)
     print("Thank you for your inputs; File Paths Loaded Successfully")
     return [AA_data,AC_data,ACEXT_data]
@@ -377,8 +378,6 @@ def get_path():
 def get_date(filePath):
     date = os.path.basename(filePath).split("_")[0].strip()
     return date
-
-
 
 
 # Function to concatenate all the data frames
