@@ -21,7 +21,8 @@ final_result = []
 
 # Function to highlight the cells based on thier values
 def cell_highlight(min, max, cell, b, y, g):
-    ## TODO: Check for the correct inputs if needed
+    #### Remember to check the inputs if you are planning to use this function anywhere else in the program ####
+    assert min < max, "Min value is greater than Max Value"
     try:
         if not min <= cell.value <= max:
             if not cell.value <= max:
@@ -29,6 +30,9 @@ def cell_highlight(min, max, cell, b, y, g):
             cell.fill = y
         else:
             cell.fill = g
+    except AssertionError as e:
+        print(f"Problem with the inputs to the Cell_Highlight function!!!\n{e}")
+        sys.exit(1)
     except Exception as e:
         print(f"Problem in Cell_Highlight method; Check it out!!! {e}")
         sys.exit(1)
@@ -361,7 +365,6 @@ def check_input(filePath, date):
     return True
 
 
-# TODO: Add verification using the dates form the file path in that formate before releasing it
 # Function to take the file path from the user
 def get_path():
     print("Requesting the File Paths for the Data Sets...")
@@ -423,8 +426,6 @@ if __name__ == '__main__':
     actual_no_of_patients = int(input("Enter the Number of Patients (Excluding the controls): ")) + 4
     paths = get_path()
     print("Data Extraction...")
-
-    # TODO: CHeck for dates in the files; from the path.
 
     for filePath in paths:
 
