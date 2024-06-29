@@ -49,7 +49,7 @@ def data_outliners(final_data_frame, excel_path):
 
         range_dict = {'Ala':(103,742), 'Arg':(1,41), 'Asp':(10,345), 'Cit':(5,43), 'Glu':(152,708), 'Gly':(0,1142),
                       'Leu':(27,324), 'Met':(5,41), 'Orn':(10,263), 'Phe':(10,102), 'Pro':(87,441), 'Tyr':(15,259),
-                      'Val':(52,322), 'C0':(5,125), 'C2':(1.4,80), 'C3':(0.18,0.63), 'C4':(0.08,1.7), 'C5':(0.01,1),
+                      'Val':(52,322), 'C0':(5,125), 'C2':(1.4,80), 'C3':(0.18,6.3), 'C4':(0.08,1.7), 'C5':(0.01,1),
                       'C5DC':(0.01,2.99), 'C6':(0.01,0.95), 'C8':(0.01,0.6), 'C10':(0.02,0.65), 'C12':(0.02,0.6),
                       'C14':(0.01,1.22), 'C16':(0.34,10.35), 'C18':(0.21,2.03), 'C5:1':(0.01,0.9), 'C4OH':(0.01,1.29),
                       'C5OH':(0.01,0.9), 'C8:1':(0.01,0.7), 'C3DC':(0.1,0.45), 'C10:2':(0.01,0.22), 'C10:1':(0.01,0.45),
@@ -370,6 +370,8 @@ def check_input(filePath, date):
 # Function to take the file path from the user
 def get_path():
     print("Requesting the File Paths for the Data Sets...")
+    root = tk.Tk()
+    root.withdraw()
     try:
         AA_data = input("Enter the file path for AA Data\n")
         date = get_date(AA_data)
@@ -420,7 +422,7 @@ def get_final_data(AA, AC, AC_EXT, filePath):
 def input_dialog_box():
     root = tk.Tk()
     root.withdraw() # Hide the main window
-    print(list(filedialog.askopenfilename(title="Select Files")))
+    print(filedialog.askopenfilename(title="Select Files"))
     sys.exit(1)
 
 
