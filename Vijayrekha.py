@@ -354,8 +354,9 @@ def data_extraction(filePath):
 
 ## Function to check the inputs for their dates and formates
 def check_input(filePath, date):
-    filePath = filePath.split("\\")[-1]
+    filePath = filePath.split("/")[-1]
     if filePath.endswith("_AA.txt"):
+        print(filePath)
         assert filePath.startswith(date), "Wrong AA DATE!!; Check the File Paths for Data Sets and Try again!!"
     elif filePath.endswith("_AC.txt"):
         assert filePath.startswith(date), "Wrong AC DATE!!; Check the File Paths for Data Sets and Try again!!"
@@ -373,12 +374,12 @@ def get_path():
     root = tk.Tk()
     root.withdraw()
     try:
-        AA_data = input("Enter the file path for AA Data\n")
+        AA_data = filedialog.askopenfilename(title="Enter the file path for AA Data")
         date = get_date(AA_data)
         assert check_input(AA_data, date)
-        AC_data = input("Enter the file path for AC Data\n")
+        AC_data = filedialog.askopenfilename(title="Enter the file path for AC Data")
         assert check_input(AC_data, date)
-        ACEXT_data = input("Enter the file path for ACEXT Data\n")
+        ACEXT_data = filedialog.askopenfilename(title="Enter the file path for ACEXT Data")
         assert check_input(ACEXT_data, date)
     except AssertionError as e:
         print(f"Wrong Data File Path Entered; Try again with the correct one!!!\n{e}")
@@ -418,13 +419,6 @@ def get_final_data(AA, AC, AC_EXT, filePath):
     print(final)
     return final
 
-# Function to take data file paths using a dialog box
-def input_dialog_box():
-    root = tk.Tk()
-    root.withdraw() # Hide the main window
-    print(filedialog.askopenfilename(title="Select Files"))
-    sys.exit(1)
-
 
 ## Main method to exceute the program
 if __name__ == '__main__':
@@ -434,7 +428,6 @@ if __name__ == '__main__':
     AA_data_frame = None
     AC_data_frame = None
     AC_EXT_data_frame = None
-    input_dialog_box()
     actual_no_of_patients = int(input("Enter the Number of Patients (Excluding the controls): ")) + 4
     paths = get_path()
     print("Data Extraction...")
