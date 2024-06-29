@@ -201,15 +201,16 @@ def data_extraction(filePath):
                         print("Issue with the Number of patients;\nCheck the value entered and the file!! Try Again")
                         sys.exit(1)  ## Exciting the program with error code '1'
 
+                    ## Testing Block
                     # ## Printing for checking the extraction
-                    print(compound)
+                    # print(compound)
                     # print(name)
                     # print(response)
                     # print(no_of_patients)
 
                     # Data Extraction Successful
-                    print("Data Extraction Complete !!")
-                    print("Creating the Final Results")
+                    # print("Data Extraction Complete !!")
+                    # print("Creating the Final Results")
 
             except FileNotFoundError as e:
                 print("File is not found in the right place\nPut the file in the right place or give the right file path Please!!!\n--Anurag:))\n{e}")
@@ -334,7 +335,7 @@ def data_extraction(filePath):
 
     ## Reshape and storing returning the individual data file
 
-    print("Reshaping the final results")
+    # print("Reshaping the final results")
     if filePath.endswith("_AA.txt"):  ## AA Data
         AA_2d_array = np.array(final_result).reshape(len(name),len(compound),order='F')
         print("AA Data Extraction and manipulation complete\nStoring the Data Frame")
@@ -356,7 +357,6 @@ def data_extraction(filePath):
 def check_input(filePath, date):
     filePath = filePath.split("/")[-1]
     if filePath.endswith("_AA.txt"):
-        print(filePath)
         assert filePath.startswith(date), "Wrong AA DATE!!; Check the File Paths for Data Sets and Try again!!"
     elif filePath.endswith("_AC.txt"):
         assert filePath.startswith(date), "Wrong AC DATE!!; Check the File Paths for Data Sets and Try again!!"
@@ -372,15 +372,18 @@ def check_input(filePath, date):
 def get_path():
     print("Requesting the File Paths for the Data Sets...")
     root = tk.Tk()
-    root.withdraw()
+    # root.withdraw()
     try:
         AA_data = filedialog.askopenfilename(title="Enter the file path for AA Data")
         date = get_date(AA_data)
-        assert check_input(AA_data, date)
+        filePath = AA_data.split("/")[-1]
+        assert filePath == date + "_AA.txt", "Wrong AA DATE!!; Check the File Paths for Data Sets and Try again!!"
         AC_data = filedialog.askopenfilename(title="Enter the file path for AC Data")
-        assert check_input(AC_data, date)
+        filePath = AC_data.split("/")[-1]
+        assert filePath == date + "_AC.txt", "Wrong AC DATE!!; Check the File Paths for Data Sets and Try again!!"
         ACEXT_data = filedialog.askopenfilename(title="Enter the file path for ACEXT Data")
-        assert check_input(ACEXT_data, date)
+        filePath = ACEXT_data.split("/")[-1]
+        assert filePath == date + "_AC_EXT.txt", "Wrong ACEXT DATE!!; Check the File Paths for Data Sets and Try again!!"
     except AssertionError as e:
         print(f"Wrong Data File Path Entered; Try again with the correct one!!!\n{e}")
         sys.exit(1)
@@ -416,7 +419,7 @@ def get_final_data(AA, AC, AC_EXT, filePath):
     for col in final.columns:
         if col != 'Name':
             final[col] = pd.to_numeric(final[col])
-    print(final)
+    # print(final)
     return final
 
 
@@ -430,7 +433,7 @@ if __name__ == '__main__':
     AC_EXT_data_frame = None
     actual_no_of_patients = int(input("Enter the Number of Patients (Excluding the controls): ")) + 4
     paths = get_path()
-    print("Data Extraction...")
+    # print("Data Extraction...")
 
     for filePath in paths:
 
@@ -441,23 +444,25 @@ if __name__ == '__main__':
         final_result = []
 
         if filePath.endswith("_AA.txt"):  ## AA Data
-            print("Loading AA File")
+            # print("Loading AA File")
             AA_data_frame = data_extraction(filePath)
             #print(AA_data_frame)
         elif filePath.endswith("_AC.txt"):  ## AC Data
-            print("Loading AC File")
+            # print("Loading AC File")
             AC_data_frame = data_extraction(filePath)
             #print(AC_data_frame)
         elif filePath.endswith("_AC_EXT.txt"):  ## AC_EXT Data
-            print("Loading AC_EXT File")
+            # print("Loading AC_EXT File")
             AC_EXT_data_frame = data_extraction(filePath)
             #print(AC_EXT_data_frame)
         else:
             print("Invalid Path\nPlease Try Again!")
             sys.exit(1)
 
-    print("Data Extraction Complete for all files\nCreating a Final Data Frame for Concatenation of all the data.")
+    print("Data Extraction Complete for all files\n")
     final_data_frame = get_final_data(AA_data_frame, AC_data_frame, AC_EXT_data_frame, paths[0])
+    row, col = final_data_frame.shape
+    print(f"Final Data Frame Created; Properties: rows: {row} & Col: {col}\n")
     data_outliners(final_data_frame, write_to_excel(final_data_frame,'VASU\Final Result'+ '\\' + get_date(paths[0]) + "_finalReport.xlsx"))
     print("CONGRATULATIONS!!!\nReport ready to be viewed in Excel Formate\nThank you for using the services.")
 
