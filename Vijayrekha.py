@@ -132,7 +132,7 @@ def write_to_excel(final_df, excel_path):
                 break
 
             print("File Already exist with the same name; So fetching a different file path with the same date")
-            print("_" * 100 + "\nTry not doing this again!!\n" + "_" * 100)
+            print("-" * 100 + "\nTry not doing this again!!\n" + "-" * 100)
             if i == 1:
                 date = excel_path.split(".x")
                 excel_path = date[0] + "(1).x" + date[1]
@@ -447,7 +447,7 @@ if __name__ == '__main__':
     print("Data Extraction Complete for all files\n")
     final_data_frame = get_final_data(AA_data_frame, AC_data_frame, AC_EXT_data_frame, paths[0])
     row, col = final_data_frame.shape
-    print("Final Data Frame Created\nProperties" + "-" * 23 + "|" + f"\n[{row} Rows X {col} Columns]<" + "-" * 10 + "|\n")
+    print("Final Data Frame Created\nProperties" + "-" * 26 + "|" + f"\n[ {row} Rows X {col} Columns ]<<" + "-" * 10 + "|\n")
     data_outliners(final_data_frame, write_to_excel(final_data_frame,'VASU\Final Result'+ '\\' + get_date(paths[0]) + "_finalReport.xlsx"))
     print("*"*100)
     print("CONGRATULATIONS!!!\nReport ready to be viewed in Excel Formate")
