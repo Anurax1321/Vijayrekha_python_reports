@@ -42,7 +42,7 @@ def cell_highlight(min, max, cell, b, y, g):
 
 # Function to Highlight the cells of the excel based on the range
 def data_outliners(final_data_frame, excel_path):
-    print("Checking for outliners; ", end="")
+    # print("Checking for outliners; ", end="")
     try:
         wb = load_workbook(excel_path)
         ws = wb.active
@@ -108,7 +108,7 @@ def data_outliners(final_data_frame, excel_path):
     except Exception as e:
         print(f"Probelm with the highlighting. \n{e}")
         sys.exit(1)
-    print("Highlighting Completed.")
+    # print("Highlighting Completed.")
     try:
         wb.save(excel_path)
         print("Successfully saves to the excel")
@@ -132,7 +132,7 @@ def write_to_excel(final_df, excel_path):
                 break
 
             print("File Already exist with the same name; So fetching a different file path with the same date")
-            print("\nTry not doing this again!!\n")
+            print("_" * 100 + "\nTry not doing this again!!\n" + "_" * 100)
             if i == 1:
                 date = excel_path.split(".x")
                 excel_path = date[0] + "(1).x" + date[1]
@@ -144,7 +144,7 @@ def write_to_excel(final_df, excel_path):
                 excel_path = re.sub(pattern, increment_match, excel_path)
                 continue
         print(f"Excel File Path is: {excel_path}")
-        print("Writing to the Excel File; ", end="",flush=True)
+        # print("Writing to the Excel File; ", end="",flush=True)
         return excel_path
     except AssertionError as e:
         print(f"Problem in the Excel File Path\n{e}")
@@ -338,40 +338,25 @@ def data_extraction(filePath):
     # print("Reshaping the final results")
     if filePath.endswith("_AA.txt"):  ## AA Data
         AA_2d_array = np.array(final_result).reshape(len(name),len(compound),order='F')
-        print("AA Data Extraction and manipulation complete\nStoring the Data Frame")
+        # print("AA Data Extraction and manipulation complete\nStoring the Data Frame")
         return pd.DataFrame(AA_2d_array, columns=compound)
     elif filePath.endswith("_AC.txt"):  ## AC Data
         AC_2d_array = np.array(final_result).reshape(len(name),len(compound),order='F')
-        print("AC Data Extraction and manipulation complete\nStoring the Data Frame")
+        # print("AC Data Extraction and manipulation complete\nStoring the Data Frame")
         return pd.DataFrame(AC_2d_array, columns=compound)
     elif filePath.endswith("_AC_EXT.txt"):  ## AC_EXT Data
         AC_EXT_2d_array = np.array(final_result).reshape(len(name), len(compound), order='F')
-        print("AC_EXT Data Extraction and manipulation complete\nStoring the Data Frame")
+        # print("AC_EXT Data Extraction and manipulation complete\nStoring the Data Frame")
         return pd.DataFrame(AC_EXT_2d_array, columns=compound)
     else:
         print("Wrong file path; Data Manipulation")
         sys.exit(1)
 
 
-## Function to check the inputs for their dates and formates
-def check_input(filePath, date):
-    filePath = filePath.split("/")[-1]
-    if filePath.endswith("_AA.txt"):
-        assert filePath.startswith(date), "Wrong AA DATE!!; Check the File Paths for Data Sets and Try again!!"
-    elif filePath.endswith("_AC.txt"):
-        assert filePath.startswith(date), "Wrong AC DATE!!; Check the File Paths for Data Sets and Try again!!"
-    elif filePath.endswith("_AC_EXT.txt"):
-        assert filePath.startswith(date), "Wrong AC_EXT DATE!!; Check the File Paths for Data Sets and Try again!!"
-    else:
-        # Wrong Data Set Type or Formate
-        return False
-    return True
-
-
 # Function to take the file path from the user
 def get_path():
     print("Requesting the File Paths for the Data Sets...")
-    root = tk.Tk()
+    tk.Tk()
     # root.withdraw()
     try:
         AA_data = filedialog.askopenfilename(title="Enter the file path for AA Data")
@@ -390,7 +375,7 @@ def get_path():
     except Exception as e:
         print(f"Problem in file path input; Check it out!!!\n{e}")
         sys.exit(1)
-    print("Thank you for your inputs; File Paths Loaded Successfully")
+    print("File Paths Loaded Successfully; ", end="")
     return [AA_data,AC_data,ACEXT_data]
 
 
@@ -462,8 +447,9 @@ if __name__ == '__main__':
     print("Data Extraction Complete for all files\n")
     final_data_frame = get_final_data(AA_data_frame, AC_data_frame, AC_EXT_data_frame, paths[0])
     row, col = final_data_frame.shape
-    print(f"Final Data Frame Created; Properties: rows: {row} & Col: {col}\n")
+    print("Final Data Frame Created\nProperties" + "-" * 23 + "|" + f"\n[{row} Rows X {col} Columns]<" + "-" * 10 + "|\n")
     data_outliners(final_data_frame, write_to_excel(final_data_frame,'VASU\Final Result'+ '\\' + get_date(paths[0]) + "_finalReport.xlsx"))
-    print("CONGRATULATIONS!!!\nReport ready to be viewed in Excel Formate\nThank you for using the services.")
-
+    print("*"*100)
+    print("CONGRATULATIONS!!!\nReport ready to be viewed in Excel Formate")
+    print("*" * 100)
 
