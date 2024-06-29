@@ -9,6 +9,8 @@ import numpy as np
 import re
 from openpyxl import load_workbook
 from openpyxl.styles import Font, PatternFill
+import tkinter as tk
+from tkinter import filedialog
 
 # Declaration
 
@@ -414,6 +416,13 @@ def get_final_data(AA, AC, AC_EXT, filePath):
     print(final)
     return final
 
+# Function to take data file paths using a dialog box
+def input_dialog_box():
+    root = tk.Tk()
+    root.withdraw() # Hide the main window
+    print(list(filedialog.askopenfilename(title="Select Files")))
+    sys.exit(1)
+
 
 ## Main method to exceute the program
 if __name__ == '__main__':
@@ -423,6 +432,7 @@ if __name__ == '__main__':
     AA_data_frame = None
     AC_data_frame = None
     AC_EXT_data_frame = None
+    input_dialog_box()
     actual_no_of_patients = int(input("Enter the Number of Patients (Excluding the controls): ")) + 4
     paths = get_path()
     print("Data Extraction...")
