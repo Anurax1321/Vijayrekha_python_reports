@@ -1,4 +1,8 @@
-range at the top
-empty coloumn
-three different df for controls and patirnts 
+Requirements:
+print the range at the top of each file
+empty column
+
+Done:
 file input
+three different df for controls and patients 
+
