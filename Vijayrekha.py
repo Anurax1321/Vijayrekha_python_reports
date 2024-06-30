@@ -124,6 +124,7 @@ def increment_match(match):
 
 ## Fucntion to write to a file
 def write_to_excel(final_df, excel_path):
+    print(final_df[0])
     try:
         i = 1
         while True:
@@ -450,11 +451,11 @@ if __name__ == '__main__':
     print("Final Data Frame Created\nProperties" + "-" * 26 + "|" + f"\n[ {row} Rows X {col} Columns ]<<" + "-" * 10 + "|\n")
 
     ## Dividing the data frame into three different compartments
-    control_1_df = final_data_frame[:2]
-    control_2_df = final_data_frame[2:4]
-    final_data_frame = final_data_frame[4:]
+    # control_1_df = final_data_frame[:2]
+    # control_2_df = final_data_frame[2:4]
+    # final_data_frame = final_data_frame[4:]
 
-    data_outliners(final_data_frame, write_to_excel(final_data_frame,'VASU\Final Result'+ '\\' + get_date(paths[0]) + "_finalReport.xlsx"))
+    data_outliners(final_data_frame, write_to_excel([final_data_frame[:2], final_data_frame[2:4], final_data_frame[4:]],'VASU\Final Result'+ '\\' + get_date(paths[0]) + "_finalReport.xlsx"))
     print("*"*100)
     print("CONGRATULATIONS!!!\nReport ready to be viewed in Excel Formate")
     print("*" * 100)
