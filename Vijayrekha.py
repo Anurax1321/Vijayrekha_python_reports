@@ -20,6 +20,32 @@ compound = []
 response = []
 final_result = []
 
+range_dict = {'Ala': (103, 742), 'Arg': (1, 41), 'Asp': (10, 345), 'Cit': (5, 43), 'Glu': (152, 708), 'Gly': (0, 1142),
+              'Leu': (27, 324), 'Met': (5, 41), 'Orn': (10, 263), 'Phe': (10, 102), 'Pro': (87, 441), 'Tyr': (15, 259),
+              'Val': (52, 322), 'C0': (5, 125), 'C2': (1.4, 80), 'C3': (0.18, 6.3), 'C4': (0.08, 1.7), 'C5': (0.01, 1),
+              'C5DC': (0.01, 2.99), 'C6': (0.01, 0.95), 'C8': (0.01, 0.6), 'C10': (0.02, 0.65), 'C12': (0.02, 0.6),
+              'C14': (0.01, 1.22), 'C16': (0.34, 10.35), 'C18': (0.21, 2.03), 'C5:1': (0.01, 0.9), 'C4OH': (0.01, 1.29),
+              'C5OH': (0.01, 0.9), 'C8:1': (0.01, 0.7), 'C3DC': (0.1, 0.45), 'C10:2': (0.01, 0.22),
+              'C10:1': (0.01, 0.45),
+              'C4DC': (0.1, 1.25), 'C12:1': (0.01, 0.5), 'C6DC': (0.01, 0.23), 'C14:2': (0, 0.2), 'C14:1': (0.01, 0.8),
+              'C14OH': (0, 0.2), 'C16:1': (0.01, 1.4), 'C16:1OH': (0.01, 0.1), 'C16OH': (0.01, 0.1),
+              'C18:2': (0.1, 0.73),
+              'C18:1': (0.5, 7), 'C18:2OH': (0.01, 0.03), 'C18:1OH': (0.01, 0.1), 'C18OH': (0.01, 0.1)}
+
+control_1_range_dict = {'Ala': (338, 702), 'Arg': (6.07, 12.6), 'Asp': (17.2, 45.5), 'Cit': (15.8, 41.6), 'Glu': (392, 813),
+                    'Gly': (301, 701), 'Leu': (125, 259), 'Met': (14.7, 34.2), 'Orn': (101, 237), 'Phe': (67.7, 126),
+                    'Pro': (174, 323), 'Tyr': (47.1, 110), 'Val': (108, 284), 'C0': (14.3, 57.1), 'C2': (3.56, 15.8),
+                    'C3': (0.326, 0.861), 'C4': (0.13, 0.27), 'C5': (0.262, 0.611), 'C5DC': (0.487, 1.95),
+                    'C6': (0.072, 0.189), 'C8': (0.237, 0.624), 'C10': (0.12, 0.318), 'C12': (0.27, 0.561),
+                    'C14': (0.279, 0.652), 'C16': (0.869, 2.03), 'C18': (0.425, 0.991)}
+
+control_2_range_dict = {'Ala': (731, 1519), 'Arg': (12.4, 28.9), 'Asp': (157, 413), 'Cit': (135, 404), 'Glu': (536, 995),
+                    'Gly': (755, 1568), 'Leu': (375, 876), 'Met': (231, 479), 'Orn': (361, 843), 'Phe': (471, 979),
+                    'Pro': (398, 828), 'Tyr': (359, 745), 'Val': (325, 757), 'C0': (68.1, 321), 'C2': (5.2, 20.8),
+                    'C3': (5.51, 11.4), 'C4': (0.436, 0.809), 'C5': (1.26, 2.62), 'C5DC': (1.78, 7.1),
+                    'C6': (0.506, 1.05), 'C8': (1.56, 3.24), 'C10': (0.663, 1.38), 'C12': (3.81, 7.07),
+                    'C14': (2.0, 4.16), 'C16': (6.98, 14.5), 'C18': (2.79, 5.8)}
+
 
 # Function to highlight the cells based on thier values
 def cell_highlight(min, max, cell, b, y, g):
@@ -47,30 +73,6 @@ def data_outliners(final_data_frame, excel_path):
         wb = load_workbook(excel_path)
         ws = wb.active
 
-        range_dict = {'Ala':(103,742), 'Arg':(1,41), 'Asp':(10,345), 'Cit':(5,43), 'Glu':(152,708), 'Gly':(0,1142),
-                      'Leu':(27,324), 'Met':(5,41), 'Orn':(10,263), 'Phe':(10,102), 'Pro':(87,441), 'Tyr':(15,259),
-                      'Val':(52,322), 'C0':(5,125), 'C2':(1.4,80), 'C3':(0.18,6.3), 'C4':(0.08,1.7), 'C5':(0.01,1),
-                      'C5DC':(0.01,2.99), 'C6':(0.01,0.95), 'C8':(0.01,0.6), 'C10':(0.02,0.65), 'C12':(0.02,0.6),
-                      'C14':(0.01,1.22), 'C16':(0.34,10.35), 'C18':(0.21,2.03), 'C5:1':(0.01,0.9), 'C4OH':(0.01,1.29),
-                      'C5OH':(0.01,0.9), 'C8:1':(0.01,0.7), 'C3DC':(0.1,0.45), 'C10:2':(0.01,0.22), 'C10:1':(0.01,0.45),
-                      'C4DC':(0.1,1.25), 'C12:1':(0.01,0.5), 'C6DC':(0.01,0.23), 'C14:2':(0,0.2), 'C14:1':(0.01,0.8),
-                      'C14OH':(0,0.2), 'C16:1':(0.01,1.4), 'C16:1OH':(0.01,0.1), 'C16OH':(0.01,0.1), 'C18:2':(0.1,0.73),
-                      'C18:1':(0.5,7), 'C18:2OH':(0.01,0.03), 'C18:1OH':(0.01,0.1), 'C18OH':(0.01,0.1)}
-
-        col_1_range_dict = {'Ala':(338,702), 'Arg':(6.07,12.6), 'Asp':(17.2,45.5), 'Cit':(15.8,41.6), 'Glu':(392,813),
-                            'Gly':(301,701), 'Leu':(125,259), 'Met':(14.7,34.2), 'Orn':(101,237), 'Phe':(67.7,126),
-                            'Pro':(174,323), 'Tyr':(47.1,110), 'Val':(108,284), 'C0':(14.3,57.1), 'C2':(3.56,15.8),
-                            'C3':(0.326,0.861), 'C4':(0.13,0.27), 'C5':(0.262,0.611), 'C5DC':(0.487,1.95),
-                            'C6':(0.072,0.189), 'C8':(0.237,0.624), 'C10':(0.12,0.318), 'C12':(0.27,0.561),
-                            'C14':(0.279,0.652), 'C16':(0.869,2.03), 'C18':(0.425,0.991)}
-
-        col_2_range_dict = {'Ala':(731,1519), 'Arg':(12.4,28.9), 'Asp':(157,413), 'Cit':(135,404), 'Glu':(536,995),
-                            'Gly':(755,1568), 'Leu':(375,876), 'Met':(231,479), 'Orn':(361,843), 'Phe':(471,979),
-                            'Pro':(398,828), 'Tyr':(359,745), 'Val':(325,757), 'C0':(68.1,321), 'C2':(5.2,20.8),
-                            'C3':(5.51,11.4), 'C4':(0.436,0.809), 'C5':(1.26,2.62), 'C5DC':(1.78,7.1),
-                            'C6':(0.506,1.05), 'C8':(1.56,3.24), 'C10':(0.663,1.38), 'C12':(3.81,7.07),
-                            'C14':(2.0,4.16), 'C16':(6.98,14.5), 'C18':(2.79,5.8)}
-
         bold = Font(bold=True)
 
         green_fill = PatternFill(start_color="C6EFCE", end_color="C6EFCE", fill_type="solid")
@@ -86,16 +88,16 @@ def data_outliners(final_data_frame, excel_path):
                 for cell in ws[col_letter][1:]:
                     if isinstance(cell.value, (int,float)):
                         if i < 2:
-                            if col in col_1_range_dict:
-                                min_value, max_value = col_1_range_dict[col]
+                            if col in control_1_range_dict:
+                                min_value, max_value = control_1_range_dict[col]
                                 cell_highlight(min_value, max_value, cell, bold, yellow_fill, green_fill)
                                 i += 1
                             else:
                                 i += 1
                                 continue
                         elif i < 4:
-                            if col in col_2_range_dict:
-                                min_value, max_value = col_2_range_dict[col]
+                            if col in control_2_range_dict:
+                                min_value, max_value = control_2_range_dict[col]
                                 cell_highlight(min_value, max_value, cell, bold, yellow_fill, green_fill)
                                 i += 1
                             else:
@@ -125,6 +127,8 @@ def increment_match(match):
 ## Fucntion to write to a file
 def write_to_excel(final_df, excel_path):
     print(final_df[0])
+    print(final_df[1])
+    print(final_df[2])
     try:
         i = 1
         while True:
@@ -451,11 +455,26 @@ if __name__ == '__main__':
     print("Final Data Frame Created\nProperties" + "-" * 26 + "|" + f"\n[ {row} Rows X {col} Columns ]<<" + "-" * 10 + "|\n")
 
     ## Dividing the data frame into three different compartments
-    # control_1_df = final_data_frame[:2]
-    # control_2_df = final_data_frame[2:4]
-    # final_data_frame = final_data_frame[4:]
+    control_1_df = final_data_frame[:2]
+    control_1_df.rename(columns={'Name','CONTROLS'},inplace=True)
+    ## TODO: Change the name in the controls
 
-    data_outliners(final_data_frame, write_to_excel([final_data_frame[:2], final_data_frame[2:4], final_data_frame[4:]],'VASU\Final Result'+ '\\' + get_date(paths[0]) + "_finalReport.xlsx"))
+    print(control_1_df.columns)
+
+    control_1_df = control_1_df.append(control_1_df.mean(), ignore_index=True)
+
+    lower_limit = {key : value[0] for key, value in control_1_range_dict}
+    upper_limit = {key : value[1] for key, value in control_1_range_dict}
+
+    control_1_df = pd.DataFrame([lower_limit, upper_limit], index=['lower control limit', 'upper control limit']).append(control_1_df)
+
+    control_2_df = final_data_frame[2:4]
+
+    combine_range_dict = {key : f"{value[0]} - {value[1]}" for key , value in range_dict}
+    final_data_frame = final_data_frame[4:]
+    final_data_frame = final_data_frame.append(combine_range_dict, ignore_index = True)
+
+    data_outliners(final_data_frame, write_to_excel([control_1_df, control_2_df, final_data_frame],'VASU\Final Result'+ '\\' + get_date(paths[0]) + "_finalReport.xlsx"))
     print("*"*100)
     print("CONGRATULATIONS!!!\nReport ready to be viewed in Excel Formate")
     print("*" * 100)
