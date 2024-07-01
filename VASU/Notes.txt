@@ -1,8 +1,8 @@
 Requirements:
-print the range at the top of each file
-empty column
+highlighting the printed formats with the correct range check
 
 Done:
 file input
 three different df for controls and patients 
-
+print the range at the top of each file
+empty column

@@ -143,7 +143,7 @@ def write_to_excel(final_df, excel_path):
                     final_df[1].to_excel(writer, startrow =10, startcol = 0, index=False, sheet_name="Sheet1")
 
                     # The patient list and their values
-                    final_df[2].to_excel(writer, startrow =20, startcol = 0, index=False, sheet_name="Sheet1")
+                    final_df[2].to_excel(writer, startrow =21, startcol = 0, index=False, sheet_name="Sheet1")
                 break
 
             print("File Already exist with the same name; So fetching a different file path with the same date")
@@ -403,8 +403,8 @@ def get_date(filePath):
 # Function to concatenate all the data frames
 def get_final_data(AA, AC, AC_EXT):
     final = pd.concat( [AA,AC,AC_EXT] , axis = 1)
-    final.insert(0, 'Name', name)
-    return final.apply(lambda col: pd.to_numeric(col) if col.name != 'Name' else col)
+    final.insert(0, 'Sample text', name)
+    return final.apply(lambda col: pd.to_numeric(col) if col.name != 'Sample text' else col)
 
 
 # Function to redefine the data frame as required and formatted
@@ -412,7 +412,7 @@ def redefine_dataframe(df, c1_flag = False, c2_flag = False):
 
     if c1_flag is True or c2_flag is True:
         # This is for controls
-        df.rename(columns={'Name': 'CONTROLS'}, inplace=True)
+        df.rename(columns={'Sample text': 'CONTROLS'}, inplace=True)
         if c1_flag is True:
             # First set of controls
             df.at[0, 'CONTROLS'] = "Control I"
@@ -464,7 +464,7 @@ def redefine_dataframe(df, c1_flag = False, c2_flag = False):
         combine_limit = {key: f"{value[0]} - {value[1]}" for key, value in range_dict.items() if
                               key in df.columns}
         combine_limit = pd.DataFrame([combine_limit])
-        combine_limit['Name'] = 'Reference Range'
+        combine_limit['Sample text'] = 'Reference Range'
         combine_limit = combine_limit.reindex(columns=df.columns, fill_value="")
         combine_limit = combine_limit[df.columns]
 
