@@ -140,10 +140,10 @@ def write_to_excel(final_df, excel_path):
                     final_df[0].to_excel(writer, startrow =1, startcol = 0, index = False, sheet_name="Sheet1")
 
                     # Now writing second controls
-                    final_df[1].to_excel(writer, startrow =8, startcol = 0, index=False, sheet_name="Sheet1")
+                    final_df[1].to_excel(writer, startrow =10, startcol = 0, index=False, sheet_name="Sheet1")
 
                     # The patient list and their values
-                    final_df[2].to_excel(writer, startrow =15, startcol = 0, index=False, sheet_name="Sheet1")
+                    final_df[2].to_excel(writer, startrow =17, startcol = 0, index=False, sheet_name="Sheet1")
                 break
 
             print("File Already exist with the same name; So fetching a different file path with the same date")
@@ -409,6 +409,7 @@ def get_final_data(AA, AC, AC_EXT):
 
 # Function to redefine the data frame as required and formatted
 def redefine_dataframe(df, c1_flag = False, c2_flag = False):
+
     if c1_flag is True or c2_flag is True:
         # This is for controls
         df.rename(columns={'Name': 'CONTROLS'}, inplace=True)
@@ -434,7 +435,7 @@ def redefine_dataframe(df, c1_flag = False, c2_flag = False):
 
         # Adding Means to the Data Frame
         mean_df = pd.DataFrame([df.iloc[:, 1:].mean()])
-        mean_df['CONTROLS'] = 'Mean'
+        mean_df['CONTROLS'] = 'Mean Values'
         mean_df = mean_df[df.columns]
         df = pd.concat([df, mean_df], ignore_index=True)
 
@@ -455,7 +456,7 @@ def redefine_dataframe(df, c1_flag = False, c2_flag = False):
 
         # Adding empty rows into the dat frame for formating
         empty_row = pd.DataFrame([[""] * len(df.columns)], columns=df.columns)
-        df = pd.concat([df[:], empty_row, df[:], empty_row, df[:]]).reset_index(drop=True)
+        df = pd.concat([df[:2], empty_row, df[2:3], empty_row, df[3:]]).reset_index(drop=True)
 
     else:
         # This is for normal patient data frame
@@ -469,6 +470,10 @@ def redefine_dataframe(df, c1_flag = False, c2_flag = False):
 
         # Adding one row of combined reference ranges at the top of the data frame after the header
         df = pd.concat([combine_limit, df], ignore_index=True)
+
+        # Adding empty rows into the dat frame for formating
+        empty_row = pd.DataFrame([[""] * len(df.columns)], columns=df.columns)
+        df = pd.concat([df[:1], empty_row, df[1:]]).reset_index(drop=True)
 
     # Adding an empty column for formating
     df.insert(1,"","")
