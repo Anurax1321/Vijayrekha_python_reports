@@ -413,6 +413,11 @@ def get_final_data(AA, AC, AC_EXT, filePath):
     return final
 
 
+# Function to redefine the data frame as required and formatted
+def redefine_dataframe(df):
+    return df
+
+
 ## Main method to exceute the program
 if __name__ == '__main__':
 
