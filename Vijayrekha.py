@@ -466,25 +466,40 @@ if __name__ == '__main__':
     # print(control_1_df.iloc[0])
     # print(control_1_df.loc[0])
 
-    control_1_df = control_1_df.append(control_1_df.mean(), ignore_index=True)
+    mean_df = pd.DataFrame([control_1_df.iloc[:,1:].mean()])
+    mean_df['CONTROLS'] = 'Mean'
+    control_1_df = pd.concat([control_1_df,mean_df],ignore_index=True)
 
-    lower_limit = {key : value[0] for key, value in control_1_range_dict}
-    upper_limit = {key : value[1] for key, value in control_1_range_dict}
+    lower_limit = {key : value[0] for key, value in control_1_range_dict.items()}
+    lower_limit = pd.DataFrame([lower_limit])
+    lower_limit['CONTROLS'] = 'Lower Control Limit'
+    upper_limit = {key : value[1] for key, value in control_1_range_dict.items()}
+    upper_limit = pd.DataFrame([upper_limit])
+    upper_limit['CONTROLS'] = 'Upper Control Limit'
 
-    control_1_df = pd.DataFrame([lower_limit, upper_limit], index=['lower control limit', 'upper control limit']).append(control_1_df)
+    print(lower_limit)
+    print(upper_limit)
 
-    control_2_df = final_data_frame[2:4]
+    # control_1_df = pd.DataFrame([lower_limit, upper_limit], index=['lower control limit', 'upper control limit']).append(control_1_df)
+    control_1_df = pd.concat([lower_limit, upper_limit, control_1_df], ignore_index=True)
+
+    print(control_1_df)
+
+    control_2_df = final_data_frame[2:4].copy()
 
     control_2_df.rename(columns={'Name': 'CONTROLS'}, inplace=True)
     control_2_df.at[0, 'CONTROLS'] = "Control II"
     control_2_df.at[1, 'CONTROLS'] = "Control II"
 
-    combine_range_dict = {key : f"{value[0]} - {value[1]}" for key , value in range_dict}
-    final_data_frame = final_data_frame[4:]
-    final_data_frame = final_data_frame.append(combine_range_dict, ignore_index = True)
+    combine_range_dict = {key : f"{value[0]} - {value[1]}" for key , value in range_dict.items()}
+    final_data_frame = final_data_frame[4:].copy()
+    final_data_frame = pd.concat([combine_range_dict,final_data_frame], ignore_index=True)
+    # final_data_frame = final_data_frame.append(combine_range_dict, ignore_index = True)
+
+    print(final_data_frame)
 
     data_outliners(final_data_frame, write_to_excel([control_1_df, control_2_df, final_data_frame],'VASU\Final Result'+ '\\' + get_date(paths[0]) + "_finalReport.xlsx"))
-    print("*"*100)
+    print("*" * 100)
     print("CONGRATULATIONS!!!\nReport ready to be viewed in Excel Formate")
     print("*" * 100)
 
