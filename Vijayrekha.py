@@ -455,7 +455,6 @@ def redefine_dataframe(df, c1_flag = False, c2_flag = False):
 
         # Adding one row of combined reference ranges at the top of the data frame after the header
         df = pd.concat([combine_limit, df], ignore_index=True)
-
     return df
 
 
@@ -500,11 +499,16 @@ if __name__ == '__main__':
     row, col = final_data_frame.shape
     print("Final Data Frame Created\nProperties" + "-" * 26 + "|" + f"\n[ {row} Rows X {col} Columns ]<<" + "-" * 10 + "|\n")
 
-    # Redefining the data frames
-    print(redefine_dataframe(final_data_frame[:2].copy(), c1_flag = True))
-    print(redefine_dataframe(final_data_frame[2:4].copy(), c2_flag = True))
+    # Redefining the data frame
+    final_data_frame = [redefine_dataframe(final_data_frame[:2].copy(), c1_flag = True),
+                        redefine_dataframe(final_data_frame[2:4].copy(), c2_flag = True),
+                        redefine_dataframe(final_data_frame[4:].copy())]
 
-    data_outliners(final_data_frame, write_to_excel([redefine_dataframe(final_data_frame[:2].copy(), c1_flag = True), control_2_df, redefine_dataframe(final_data_frame[4:].copy())],'VASU\Final Result'+ '\\' + get_date(paths[0]) + "_finalReport.xlsx"))
+    # writing to an excel and highlighting
+    excel_write = write_to_excel(final_data_frame, 'VASU\Final Result'+ '\\' + get_date(paths[0]) + "_finalReport.xlsx")
+    data_outliners(final_data_frame,excel_write)
+
+
     print("*" * 100)
     print("CONGRATULATIONS!!!\nReport ready to be viewed in Excel Formate")
     print("*" * 100)
