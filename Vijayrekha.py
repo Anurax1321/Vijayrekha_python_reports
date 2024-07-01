@@ -7,6 +7,7 @@ import sys
 import pandas as pd
 import numpy as np
 import re
+# import XlsxWriter as xl
 from openpyxl import load_workbook
 from openpyxl.styles import Font, PatternFill
 import tkinter as tk
@@ -133,9 +134,15 @@ def write_to_excel(final_df, excel_path):
         i = 1
         while True:
             if not os.path.isfile(excel_path):
-                final_df[0].to_excel(excel_path, index = False)
-                final_df[1].to_excel(excel_path, index=False)
-                final_df[2].to_excel(excel_path, index=False)
+                with pd.ExcelWriter(excel_path) as writer:
+                    # Writing to an excel
+                    final_df[0].to_excel(writer, startrow =1, startcol = 0, index = False, sheet_name="Sheet1")
+
+                    # Now writing second controls
+                    final_df[1].to_excel(writer, startrow =8, startcol = 0, index=False, sheet_name="Sheet1")
+
+                    # The patient list and their values
+                    final_df[2].to_excel(writer, startrow =15, startcol = 0, index=False, sheet_name="Sheet1")
                 break
 
             print("File Already exist with the same name; So fetching a different file path with the same date")
