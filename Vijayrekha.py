@@ -143,7 +143,7 @@ def write_to_excel(final_df, excel_path):
                     final_df[1].to_excel(writer, startrow =10, startcol = 0, index=False, sheet_name="Sheet1")
 
                     # The patient list and their values
-                    final_df[2].to_excel(writer, startrow =17, startcol = 0, index=False, sheet_name="Sheet1")
+                    final_df[2].to_excel(writer, startrow =20, startcol = 0, index=False, sheet_name="Sheet1")
                 break
 
             print("File Already exist with the same name; So fetching a different file path with the same date")
