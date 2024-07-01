@@ -460,8 +460,6 @@ if __name__ == '__main__':
     control_1_df.at[0,'CONTROLS'] = "Control I"
     control_1_df.at[1, 'CONTROLS'] = "Control I"
 
-    ## TODO: Change the name in the controls
-
     # print(control_1_df.columns)
     # print(control_1_df.iloc[0])
     # print(control_1_df.loc[0])
@@ -470,14 +468,22 @@ if __name__ == '__main__':
     mean_df['CONTROLS'] = 'Mean'
     control_1_df = pd.concat([control_1_df,mean_df],ignore_index=True)
 
-    lower_limit = {key : value[0] for key, value in control_1_range_dict.items()}
+    lower_limit = {key : value[0] for key, value in control_1_range_dict.items() if key in control_1_df.columns}
     lower_limit = pd.DataFrame([lower_limit])
     lower_limit['CONTROLS'] = 'Lower Control Limit'
-    upper_limit = {key : value[1] for key, value in control_1_range_dict.items()}
+    lower_limit = lower_limit.reindex(columns=control_1_df.columns, fill_value= "")
+    lower_limit = lower_limit[control_1_df.columns]
+
+    upper_limit = {key : value[1] for key, value in control_1_range_dict.items() if key in control_1_df.columns}
     upper_limit = pd.DataFrame([upper_limit])
     upper_limit['CONTROLS'] = 'Upper Control Limit'
+    upper_limit = upper_limit.reindex(columns=control_1_df.columns, fill_value="")
+    upper_limit = upper_limit[control_1_df.columns]
 
-    control_1_df = pd.concat([lower_limit, upper_limit, control_1_df], ignore_index=True)
+    print(lower_limit)
+    print(upper_limit)
+    print(control_1_df)
+    control_1_df = pd.concat([control_1_df, lower_limit, upper_limit], ignore_index=True)
 
     print(control_1_df)
 
@@ -487,7 +493,7 @@ if __name__ == '__main__':
     control_2_df.at[0, 'CONTROLS'] = "Control II"
     control_2_df.at[1, 'CONTROLS'] = "Control II"
 
-    combine_range_dict = {key : f"{value[0]} - {value[1]}" for key , value in range_dict.items()}
+    combine_range_dict = {key : f"{value[0]} - {value[1]}" for key , value in range_dict.items() if key in final_data_frame.columns}
     final_data_frame = final_data_frame[4:].copy()
     final_data_frame = pd.concat([combine_range_dict,final_data_frame], ignore_index=True)
 
