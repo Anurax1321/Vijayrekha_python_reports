@@ -477,10 +477,6 @@ if __name__ == '__main__':
     upper_limit = pd.DataFrame([upper_limit])
     upper_limit['CONTROLS'] = 'Upper Control Limit'
 
-    print(lower_limit)
-    print(upper_limit)
-
-    # control_1_df = pd.DataFrame([lower_limit, upper_limit], index=['lower control limit', 'upper control limit']).append(control_1_df)
     control_1_df = pd.concat([lower_limit, upper_limit, control_1_df], ignore_index=True)
 
     print(control_1_df)
@@ -494,7 +490,6 @@ if __name__ == '__main__':
     combine_range_dict = {key : f"{value[0]} - {value[1]}" for key , value in range_dict.items()}
     final_data_frame = final_data_frame[4:].copy()
     final_data_frame = pd.concat([combine_range_dict,final_data_frame], ignore_index=True)
-    # final_data_frame = final_data_frame.append(combine_range_dict, ignore_index = True)
 
     print(final_data_frame)
 
