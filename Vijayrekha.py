@@ -126,14 +126,16 @@ def increment_match(match):
 
 ## Fucntion to write to a file
 def write_to_excel(final_df, excel_path):
-    print(final_df[0])
-    print(final_df[1])
-    print(final_df[2])
+    # print(final_df[0])
+    # print(final_df[1])
+    # print(final_df[2])
     try:
         i = 1
         while True:
             if not os.path.isfile(excel_path):
-                final_df.to_excel(excel_path, index = False)
+                final_df[0].to_excel(excel_path, index = False)
+                final_df[1].to_excel(excel_path, index=False)
+                final_df[2].to_excel(excel_path, index=False)
                 break
 
             print("File Already exist with the same name; So fetching a different file path with the same date")
