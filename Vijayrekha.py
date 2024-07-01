@@ -391,26 +391,10 @@ def get_date(filePath):
 
 
 # Function to concatenate all the data frames
-def get_final_data(AA, AC, AC_EXT, filePath):
+def get_final_data(AA, AC, AC_EXT):
     final = pd.concat( [AA,AC,AC_EXT] , axis = 1)
     final.insert(0, 'Name', name)
-
-    for idx,row in final.iterrows():
-        if idx < 4:
-            if row["Name"].startswith(get_date(filePath) + "_Recipe_0"):
-                row['Name'] = f"CONTROL {row.name +1}"
-                final.loc[idx] = row
-            else:
-                print("Something wrong with the alignment of the first four controls.\nProblem when renaming the controls.\nCheck get_final_date().")
-                sys.exit(1)
-        else:
-            break
-
-    for col in final.columns:
-        if col != 'Name':
-            final[col] = pd.to_numeric(final[col])
-    # print(final)
-    return final
+    return final.apply(lambda col: pd.to_numeric(col) if col.name != 'Name' else col)
 
 
 # Function to redefine the data frame as required and formatted
