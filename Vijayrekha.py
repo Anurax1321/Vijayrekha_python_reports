@@ -127,9 +127,10 @@ def increment_match(match):
 
 ## Fucntion to write to a file
 def write_to_excel(final_df, excel_path):
-    # print(final_df[0])
-    # print(final_df[1])
-    # print(final_df[2])
+    print(final_df[0])
+    print(final_df[1])
+    print(final_df[2])
+
     try:
         i = 1
         while True:
@@ -452,6 +453,10 @@ def redefine_dataframe(df, c1_flag = False, c2_flag = False):
         # Adding the control limits to the data frame
         df = pd.concat([df, lower_limit, upper_limit], ignore_index=True)
 
+        # Adding empty rows into the dat frame for formating
+        empty_row = pd.DataFrame([[""] * len(df.columns)], columns=df.columns)
+        df = pd.concat([df[:], empty_row, df[:], empty_row, df[:]]).reset_index(drop=True)
+
     else:
         # This is for normal patient data frame
         # Extracting and combining the limits and storing it in a dict then to a dtaa frame to be added into the maing df
@@ -464,6 +469,9 @@ def redefine_dataframe(df, c1_flag = False, c2_flag = False):
 
         # Adding one row of combined reference ranges at the top of the data frame after the header
         df = pd.concat([combine_limit, df], ignore_index=True)
+
+    # Adding an empty column for formating
+    df.insert(1,"","")
     return df
 
 
