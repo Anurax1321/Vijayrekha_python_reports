@@ -496,7 +496,7 @@ if __name__ == '__main__':
             sys.exit(1)
 
     print("Data Extraction Complete for all files\n")
-    final_data_frame = get_final_data(AA_data_frame, AC_data_frame, AC_EXT_data_frame, paths[0])
+    final_data_frame = get_final_data(AA_data_frame, AC_data_frame, AC_EXT_data_frame)
     row, col = final_data_frame.shape
     print("Final Data Frame Created\nProperties" + "-" * 26 + "|" + f"\n[ {row} Rows X {col} Columns ]<<" + "-" * 10 + "|\n")
 
