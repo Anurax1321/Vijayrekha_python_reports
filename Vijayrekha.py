@@ -412,8 +412,8 @@ def redefine_dataframe(df, c1_flag = False, c2_flag = False):
             upper_limit = {key: value[1] for key, value in control_1_range_dict.items() if key in df.columns}
         elif c2_flag is True:
             # Second set controls
-            df.at[0, 'CONTROLS'] = "Control II"
-            df.at[1, 'CONTROLS'] = "Control II"
+            df.at[2, 'CONTROLS'] = "Control II"
+            df.at[3, 'CONTROLS'] = "Control II"
 
             #Extracting the min and max value for the controls
             lower_limit = {key: value[0] for key, value in control_2_range_dict.items() if key in df.columns}
@@ -449,7 +449,7 @@ def redefine_dataframe(df, c1_flag = False, c2_flag = False):
         combine_limit = {key: f"{value[0]} - {value[1]}" for key, value in range_dict.items() if
                               key in df.columns}
         combine_limit = pd.DataFrame([combine_limit])
-        combine_limit['CONTROLS'] = 'Reference Range'
+        combine_limit['Name'] = 'Reference Range'
         combine_limit = combine_limit.reindex(columns=df.columns, fill_value="")
         combine_limit = combine_limit[df.columns]
 
@@ -502,56 +502,9 @@ if __name__ == '__main__':
 
     # Redefining the data frames
     print(redefine_dataframe(final_data_frame[:2].copy(), c1_flag = True))
-
-    # control_1_df = final_data_frame[:2].copy()
-    # control_1_df.rename(columns={'Name':'CONTROLS'},inplace=True)
-    # control_1_df.at[0,'CONTROLS'] = "Control I"
-    # control_1_df.at[1, 'CONTROLS'] = "Control I"
-
-    # print(control_1_df.columns)
-    # print(control_1_df.iloc[0])
-    # print(control_1_df.loc[0])
-
-    # mean_df = pd.DataFrame([control_1_df.iloc[:,1:].mean()])
-    # mean_df['CONTROLS'] = 'Mean'
-    # control_1_df = pd.concat([control_1_df,mean_df],ignore_index=True)
-
-    # lower_limit = {key : value[0] for key, value in control_1_range_dict.items() if key in control_1_df.columns}
-    # lower_limit = pd.DataFrame([lower_limit])
-    # lower_limit['CONTROLS'] = 'Lower Control Limit'
-    # lower_limit = lower_limit.reindex(columns=control_1_df.columns, fill_value= "")
-    # lower_limit = lower_limit[control_1_df.columns]
-    #
-    # upper_limit = {key : value[1] for key, value in control_1_range_dict.items() if key in control_1_df.columns}
-    # upper_limit = pd.DataFrame([upper_limit])
-    # upper_limit['CONTROLS'] = 'Upper Control Limit'
-    # upper_limit = upper_limit.reindex(columns=control_1_df.columns, fill_value="")
-    # upper_limit = upper_limit[control_1_df.columns]
-
-    # print(lower_limit)
-    # print(upper_limit)
-    # print(control_1_df)
-    # control_1_df = pd.concat([control_1_df, lower_limit, upper_limit], ignore_index=True)
-    #
-    # print(control_1_df)
-
     print(redefine_dataframe(final_data_frame[2:4].copy(), c2_flag = True))
 
-    # control_2_df = final_data_frame[2:4].copy()
-    #
-    # control_2_df.rename(columns={'Name': 'CONTROLS'}, inplace=True)
-    # control_2_df.at[0, 'CONTROLS'] = "Control II"
-    # control_2_df.at[1, 'CONTROLS'] = "Control II"
-
-    print(redefine_dataframe(final_data_frame[4:].copy()))
-
-    # final_data_frame = final_data_frame[4:].copy()
-    # combine_range_dict = {key : f"{value[0]} - {value[1]}" for key , value in range_dict.items() if key in final_data_frame.columns}
-    # final_data_frame = pd.concat([combine_range_dict,final_data_frame], ignore_index=True)
-
-    # print(final_data_frame)
-
-    data_outliners(final_data_frame, write_to_excel([control_1_df, control_2_df, final_data_frame],'VASU\Final Result'+ '\\' + get_date(paths[0]) + "_finalReport.xlsx"))
+    data_outliners(final_data_frame, write_to_excel([redefine_dataframe(final_data_frame[:2].copy(), c1_flag = True), control_2_df, redefine_dataframe(final_data_frame[4:].copy())],'VASU\Final Result'+ '\\' + get_date(paths[0]) + "_finalReport.xlsx"))
     print("*" * 100)
     print("CONGRATULATIONS!!!\nReport ready to be viewed in Excel Formate")
     print("*" * 100)
