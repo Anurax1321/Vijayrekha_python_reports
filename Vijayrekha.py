@@ -455,11 +455,16 @@ if __name__ == '__main__':
     print("Final Data Frame Created\nProperties" + "-" * 26 + "|" + f"\n[ {row} Rows X {col} Columns ]<<" + "-" * 10 + "|\n")
 
     ## Dividing the data frame into three different compartments
-    control_1_df = final_data_frame[:2]
-    control_1_df.rename(columns={'Name','CONTROLS'},inplace=True)
+    control_1_df = final_data_frame[:2].copy()
+    control_1_df.rename(columns={'Name':'CONTROLS'},inplace=True)
+    control_1_df.at[0,'CONTROLS'] = "Control I"
+    control_1_df.at[1, 'CONTROLS'] = "Control I"
+
     ## TODO: Change the name in the controls
 
-    print(control_1_df.columns)
+    # print(control_1_df.columns)
+    # print(control_1_df.iloc[0])
+    # print(control_1_df.loc[0])
 
     control_1_df = control_1_df.append(control_1_df.mean(), ignore_index=True)
 
@@ -469,6 +474,10 @@ if __name__ == '__main__':
     control_1_df = pd.DataFrame([lower_limit, upper_limit], index=['lower control limit', 'upper control limit']).append(control_1_df)
 
     control_2_df = final_data_frame[2:4]
+
+    control_2_df.rename(columns={'Name': 'CONTROLS'}, inplace=True)
+    control_2_df.at[0, 'CONTROLS'] = "Control II"
+    control_2_df.at[1, 'CONTROLS'] = "Control II"
 
     combine_range_dict = {key : f"{value[0]} - {value[1]}" for key , value in range_dict}
     final_data_frame = final_data_frame[4:]
