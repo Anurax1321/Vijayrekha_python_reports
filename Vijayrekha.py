@@ -127,9 +127,9 @@ def increment_match(match):
 
 ## Fucntion to write to a file
 def write_to_excel(final_df, excel_path):
-    print(final_df[0])
-    print(final_df[1])
-    print(final_df[2])
+    # print(final_df[0])
+    # print(final_df[1])
+    # print(final_df[2])
 
     try:
         i = 1
